@@ -1,0 +1,11 @@
+name: vulnerable-web-app-lab
+
+services:
+  target-app:
+    build:
+      context: ./app
+    container_name: vuln-web-app-lab
+    ports:
+      - "8080:8080"
+    environment:
+      APP_NAME: "Vulnerable Web App Lab"

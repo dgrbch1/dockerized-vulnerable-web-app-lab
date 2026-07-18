@@ -1,0 +1,42 @@
+groups:
+  - name: cyberlab-security-alerts
+    rules:
+      - alert: SQLInjectionLabTriggered
+        expr: increase(vulnlab_events_total{lab="sql_injection"}[5m]) >= 1
+        for: 10s
+        labels:
+          severity: warning
+          lab: cybersec-observability
+        annotations:
+          summary: "SQL injection lab triggered"
+          description: "The local vulnerable app recorded a SQL injection lab attempt."
+
+      - alert: XSSLabTriggered
+        expr: increase(vulnlab_events_total{lab="xss"}[5m]) >= 1
+        for: 10s
+        labels:
+          severity: warning
+          lab: cybersec-observability
+        annotations:
+          summary: "XSS lab triggered"
+          description: "The local vulnerable app recorded a reflected XSS lab attempt."
+
+      - alert: IDORLabTriggered
+        expr: increase(vulnlab_events_total{lab="idor"}[5m]) >= 3
+        for: 10s
+        labels:
+          severity: warning
+          lab: cybersec-observability
+        annotations:
+          summary: "IDOR lab triggered repeatedly"
+          description: "The local vulnerable app recorded multiple profile object accesses."
+
+      - alert: TargetAppDown
+        expr: up{job="target-app"} == 0
+        for: 30s
+        labels:
+          severity: critical
+          lab: cybersec-observability
+        annotations:
+          summary: "Target app is down"
+          description: "Prometheus cannot scrape the target app."
